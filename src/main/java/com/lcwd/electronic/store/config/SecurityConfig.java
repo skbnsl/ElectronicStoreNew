@@ -40,7 +40,7 @@ public class SecurityConfig  {
     private com.lcwd.electronic.store.security.JwtAuthenticationFilter authenticationFilter;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 //            http.authorizeRequests()
 //                    .anyRequest().authenticated().and()
 //                    .formLogin()
