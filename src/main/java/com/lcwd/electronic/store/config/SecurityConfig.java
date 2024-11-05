@@ -1,16 +1,11 @@
 package com.lcwd.electronic.store.config;
 
-import com.lcwd.electronic.store.security.JwtAuthenticationEntryPoint;
-import com.lcwd.electronic.store.security.JwtAuthenticationFilter;
-import io.jsonwebtoken.JwtHandlerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -23,8 +18,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-
-import java.util.Arrays;
 
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -40,9 +33,11 @@ public class SecurityConfig  {
     private com.lcwd.electronic.store.security.JwtAuthenticationFilter authenticationFilter;
 
     private final String[] PUBLIC_URLS = {
-        "/swagger-ui/**",
+            "/swagger-ui/**",
             "/webjars/**",
-            "/swagger-resources/**"
+            "/swagger-resources/**",
+            "/v3/api-docs",
+            "/v2/api-docs"
     };
 
     @Bean
@@ -77,6 +72,8 @@ public class SecurityConfig  {
                     .antMatchers(HttpMethod.POST,"/users")
                     .permitAll()
                     .antMatchers(HttpMethod.DELETE,"/users/**").hasRole("ADMIN")
+                    .antMatchers(PUBLIC_URLS)
+                    .permitAll()
                     .anyRequest()
                     .authenticated()
                     .and()
@@ -124,7 +121,7 @@ public class SecurityConfig  {
 
     //cors configuration
     @Bean
-    public FilterRegistrationBean corsFilter(){
+    public CorsFilter corsFilter(){
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowCredentials(true);
@@ -141,9 +138,10 @@ public class SecurityConfig  {
         configuration.setMaxAge(3600L);
 
         source.registerCorsConfiguration("/**",configuration);
-        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean(new CorsFilter(source));
+       /* FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean(new CorsFilter(source));
         filterRegistrationBean.setOrder(-1);
-        return filterRegistrationBean;
+        return filterRegistrationBean;*/
+        return new CorsFilter(source);
     }
 
 }

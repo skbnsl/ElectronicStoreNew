@@ -4,6 +4,7 @@ package com.lcwd.electronic.store.dtos;
 import jakarta.persistence.Id;*/
 import com.lcwd.electronic.store.entities.Role;
 import com.lcwd.electronic.store.validate.ImageNameValid;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
@@ -24,6 +25,7 @@ public class UserDto {
     private String userId;
 
     @Size(min = 3, max=15, message = "Invalid Name!!")
+    @ApiModelProperty(value = "user_name", name = "username", required = true, notes = "username of new user")
     private String name;
 
     //@Email(message = "Invalid Email ID")

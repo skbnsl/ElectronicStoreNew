@@ -143,7 +143,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getUserByEmail(String email) {
-        User user = UserRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found with given email id !!"));
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found with given email id !!"));
         return entityToDto(user);
     }
 
@@ -156,7 +156,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> findUserByEmailOptional(String email) {
-        return UserRepository.findByEmail(email);
+        return userRepository.findByEmail(email);
     }
 
 

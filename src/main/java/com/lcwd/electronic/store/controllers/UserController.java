@@ -7,6 +7,9 @@ import com.lcwd.electronic.store.dtos.UserDto;
 import com.lcwd.electronic.store.services.FileService;
 import com.lcwd.electronic.store.services.UserService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.apiguardian.api.API;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,8 +32,8 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/users")
-@Api(value = "UserController", description = "Rest APis  related to perform user operatios")
-  @CrossOrigin("*")
+@Api(value = "UserController", description = "Rest APis  related to perform user operatios!!")
+@CrossOrigin("*")
 public class UserController {
 
     @Autowired
@@ -46,6 +49,12 @@ public class UserController {
 
     //create
     @PostMapping
+    @ApiOperation(value = "create new user!!")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "success | OK"),
+            @ApiResponse(code = 401, message = "not authorized!"),
+            @ApiResponse(code = 201, message = "new user created!")
+    })
     public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto) {
         UserDto userDto1 = userService.createUser(userDto);
         return new ResponseEntity<>(userDto1, HttpStatus.CREATED);
@@ -79,6 +88,7 @@ public class UserController {
 
     //get all
     @GetMapping
+    @ApiOperation(value = "Get all users", response = ResponseEntity.class, tags = {"user-controller","user-apis"})
     public ResponseEntity<PageableResponse<UserDto>> getAllUsers(
             @RequestParam(value = "pageNumber", defaultValue = "0", required = false) int pageNumber,
             @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize,
@@ -90,6 +100,7 @@ public class UserController {
 
     //get single
     @GetMapping("/{userId}")
+    @ApiOperation(value = "Get single user by userId!!")
     public ResponseEntity<UserDto> getUser(@PathVariable String userId) {
         return new ResponseEntity<>(userService.getUserById(userId), HttpStatus.OK);
     }
