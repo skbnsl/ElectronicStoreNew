@@ -39,8 +39,17 @@ public class SecurityConfig  {
     @Autowired
     private com.lcwd.electronic.store.security.JwtAuthenticationFilter authenticationFilter;
 
+    private final String[] PUBLIC_URLS = {
+        "/swagger-ui/**",
+            "/webjars/**",
+            "/swagger-resources/**"
+    };
+
     @Bean
      public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
+
+
 //            http.authorizeRequests()
 //                    .anyRequest().authenticated().and()
 //                    .formLogin()
