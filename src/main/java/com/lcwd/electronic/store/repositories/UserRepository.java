@@ -13,7 +13,7 @@ public interface UserRepository extends JpaRepository<User, String> {
     //jpa make these methods at runtime and we can use it
 
     //it use email on where condition like findById(inbuilt method)
-    Optional<User> findByEmail(String email);
+     Optional<User> findByEmail(String email);
 
     Optional<User> findByEmailAndPassword(String email,String password);
 
